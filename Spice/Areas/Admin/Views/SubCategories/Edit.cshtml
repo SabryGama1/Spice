@@ -1,0 +1,86 @@
+﻿@model SubCategoryAndCategoryViewModel
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<br />
+
+<h2 class="text-info">Edit Sub Category</h2>
+<br />
+<div class="whiteBackground border row">
+    <div class="col-8 border-right">
+        <form asp-action="Edit" method="post">
+            <input type="hidden" asp-for="SubCategory.Id" />
+            <input type="hidden" asp-for="SubCategory.CategoryId" />
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group row">
+                <div class="col-3">
+                    <label asp-for="SubCategory.CategoryId" class="col-form-label"></label>
+                </div>
+                <div class="col-5">
+                    <select class="form-control" disabled id="ddlCategories" asp-for="SubCategory.CategoryId" asp-items="@(new SelectList(Model.CategoriesList,"Id","Name"))"></select>
+                    <span class="text-danger" asp-validation-for="SubCategory.CategoryId"></span>
+                </div>
+            </div>
+
+
+            <div class="form-group row">
+                <div class="col-3">
+                    <label asp-for="SubCategory.Name" class="col-form-label"></label>
+                </div>
+                <div class="col-5">
+                    <input asp-for="SubCategory.Name" class="form-control" />
+                    <span class="text-danger" asp-validation-for="SubCategory.Name"></span>
+                </div>
+            </div>
+
+            <div class="form-group row ">
+                <div class="col-5 offset-3">
+                    <partial name="_UpdateandBackToListPatial" />
+                </div>
+
+            </div>
+        </form>
+    </div>
+    <div class="col-3 offset-1">
+        <p>Existing Sub Category</p>
+        <div id="DivSubCategoriesList">
+
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+    function updateSubCategoryList() {
+        var SelectedCategory = document.getElementById("ddlCategories").value;
+        $list = $('#DivSubCategoriesList');
+        $.ajax({
+            url: '/Admin/SubCategories/GetSubCategory/' + SelectedCategory,
+            type: 'GET',
+            dataType: 'text',
+            success: function (data) {
+                results = JSON.parse(data);
+                $list.html('');
+                $list.append('<ul class="list-group">')
+                for (i in results) {
+                    $list.append('<li class="list-group-item">' + results[i].text + '</li>')
+                }
+                $list.append('</ul>');
+            }
+        });
+
+    }
+    $(document).ready(function () {
+        updateSubCategoryList();
+    });
+    /*$("#ddlCategories").on("change", function () {
+        updateSubCategoryList();
+    });*/
+    </script>
+
+}
+
+

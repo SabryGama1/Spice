@@ -1,0 +1,70 @@
+﻿@model IEnumerable<Coupon>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="whiteBackground">
+    <div class="row">
+        <div class="col-6">
+            <h2 class="text-info">Coupon List</h2>
+        </div>
+        <div class="col-6 text-right">
+            <partial name="_CreateButtonPatial" />
+        </div>
+    </div>
+
+    <div>
+        @if (Model.Count() == 0)
+        {
+        <p class="text-danger">No Coupon...</p>
+        }
+        else
+        {
+            <table class="table table-striped border">
+                <tr class="table-secondary ">
+                    <th>
+                        @Html.DisplayNameFor(e => e.Name)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(e => e.Discount)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(e => e.MinimumAmount)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(e => e.IsActive)
+                    </th>
+                    <th>
+
+                    </th>
+
+                </tr>
+                @foreach (var item in Model)
+                {
+            <tr>
+                <td>
+                    @Html.DisplayFor(e => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(e => item.Discount)
+                </td>
+                <td>
+                    @Html.DisplayFor(e => item.MinimumAmount)
+                </td>
+                <td>
+                    @Html.DisplayFor(e => item.IsActive)
+                </td>
+
+                <td style="width:150px">
+                    <partial name="OperationButtonPartial" model="item.Id" />
+                </td>
+            </tr>
+                }
+            </table>
+        }
+    </div>
+</div>
+
+

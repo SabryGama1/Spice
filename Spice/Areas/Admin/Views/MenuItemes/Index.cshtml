@@ -1,0 +1,71 @@
+﻿@model IEnumerable<MenuItem>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="whiteBackground " >
+    <div class="row">
+        <div class="col-6">
+            <h2 class="text-info">Menu Item List</h2>
+        </div>
+        <div class="col-6 text-right">
+            <partial name="_CreateButtonPatial" />
+        </div>
+    </div>
+
+    <div>
+        @if (Model.Count() == 0)
+        {
+        <p class="text-danger">No Menu Item...</p>
+        }
+        else
+        {
+            <table class="table table-striped border">
+                <tr class="table-secondary ">
+                    <th>
+                        @Html.DisplayNameFor(e => e.Name)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(e => e.Price)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(e => e.CategoryId)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(e => e.SubCategory)
+                    </th>
+                    <th></th>
+                    <th></th>
+                </tr>
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(e => item.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(e => item.Price)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(e => item.Category.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(e => item.SubCategory.Name)
+                        </td>
+                        <td>
+                            <img src="@item.Image" width="50"  />
+                        </td>
+                        <td style="width:150px">
+                            <partial name="OperationButtonPartial" model="item.Id" />
+                        </td>
+                    </tr>
+                }
+            </table>
+        }
+    </div>
+</div>
+
+
